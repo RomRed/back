@@ -6,7 +6,9 @@
 parameters:
 
 services:
-    # default configuration for services in *this* file
+    Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager:
+        arguments:
+            $encoder: '@lexik_jwt_authentication.encoder.lcobucci'
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.

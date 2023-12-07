@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherAwareInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * UtilisateurPico
@@ -13,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="utilisateur_pico", indexes={@ORM\Index(name="utilisateur_pico_organisation_FK", columns={"id_organisation"})})
  * @ORM\Entity(repositoryClass= "App\Repository\UtilisateurPicoRepository")
  */
-class UtilisateurPico
+class UtilisateurPico  implements UserInterface, PasswordAuthenticatedUserInterface, PasswordHasherAwareInterface
 {
     /**
      * @var int
@@ -231,4 +234,94 @@ class UtilisateurPico
         return $this;
     }
 
+
+
+              //--------- UserInterface
+
+    /**
+
+     * The public representation of the user (e.g. a username, an email address, etc.)
+
+     *
+
+     * @see UserInterface
+
+     */
+
+     public function getUserIdentifier(): string
+
+     {
+ 
+         return (string) $this->email;
+ 
+     }
+ 
+ 
+ 
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+
+        return ['ROLE_USER'];
+    }
+ 
+ 
+ 
+     /**
+ 
+      *
+ 
+      * @see UserInterface
+ 
+      */
+ 
+     public function getSalt(): ?string
+ 
+     {
+ 
+         return null;
+ 
+     }
+ 
+ 
+ 
+     /**
+ 
+      * @see UserInterface
+ 
+      */
+ 
+     public function eraseCredentials()
+ 
+     {
+ 
+     }
+ 
+ 
+ 
+     /**
+ 
+      * @see PasswordAuthenticatedUserInterface
+ 
+      */
+ 
+     public function getPassword(): string
+ 
+     {
+ 
+         return $this->mdp;
+ 
+     }
+ 
+ 
+ 
+     public function getPasswordHasherName(): ?string
+ 
+     {
+ 
+         return null;
+ 
+     }
 }
